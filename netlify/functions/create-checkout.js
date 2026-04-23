@@ -13,8 +13,8 @@ exports.handler = async (event, context) => {
     
     const prices = {
       starter: { amount: 0, name: 'Starter' },
-      growth: { amount: 4900, name: 'Growth', priceId: 'price_growth_monthly' },
-      scale: { amount: 14900, name: 'Scale', priceId: 'price_scale_monthly' }
+      growth: { amount: 4900, name: 'Growth' },
+      scale: { amount: 14900, name: 'Scale' }
     };
 
     const selectedPlan = prices[plan] || prices.growth;
@@ -32,8 +32,7 @@ exports.handler = async (event, context) => {
       currency: 'usd',
       recurring: { interval: 'month' },
       product_data: {
-        name: `PagePilot ${selectedPlan.name}`,
-        description: `${plan === 'growth' ? '5' : 'Unlimited'} landing pages per month`
+        name: `PagePilot ${selectedPlan.name}`
       },
     });
 
