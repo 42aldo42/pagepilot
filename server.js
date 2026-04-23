@@ -1,10 +1,16 @@
 const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const path = require('path');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+// Initialize Stripe only if we have keys
+let stripe = null;
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+if (stripeKey && stripeKey.startsWith('sk_')) {
+  stripe = require('stripe')(stripeKey);
+}
 
 // Page generation simulation
 const generatePage = (product, audience) => {
@@ -20,14 +26,14 @@ const generatePage = (product, audience) => {
 app.post('/api/create-checkout', async (req, res) => {
   try {
     const { plan, email } = req.body;
-    const prices = {
-      starter: 0,
-      growth: 4900,
-      scale: 14900
-    };
+    const prices = { starter: 0, growth: 4900, scale: 14900 };
     
     if (plan === 'starter') {
       return res.json({ url: '/?success=true&plan=starter' });
+    }
+    
+    if (!stripe) {
+      return res.status(500).json({ error: 'Stripe not configured' });
     }
     
     const session = await stripe.checkout.sessions.create({
@@ -55,6 +61,10 @@ app.post('/api/create-checkout', async (req, res) => {
 
 // Webhook handler
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  if (!stripe) {
+    return res.status(500).json({ error: 'Stripe not configured' });
+  }
+  
   const sig = req.headers['stripe-signature'];
   let event;
   
@@ -98,10 +108,18 @@ app.post('/api/generate', async (req, res) => {
   });
 });
 
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Serve React app for all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 PagePilot running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 PagePilot running on port ${PORT}`);
+  console.log(`   Stripe configured: ${stripe ? 'YES' : 'NO'}`);
+});
