@@ -13,8 +13,8 @@ exports.handler = async (event, context) => {
     
     const prices = {
       starter: { amount: 0, name: 'Starter' },
-      growth: { amount: 4900, name: 'Growth' },
-      scale: { amount: 14900, name: 'Scale' }
+      growth: { amount: 4900, name: 'Growth', priceId: 'price_growth_monthly' },
+      scale: { amount: 14900, name: 'Scale', priceId: 'price_scale_monthly' }
     };
 
     const selectedPlan = prices[plan] || prices.growth;
@@ -26,22 +26,26 @@ exports.handler = async (event, context) => {
       };
     }
 
+    // Create a Price object first
+    const stripePrice = await stripe.prices.create({
+      unit_amount: selectedPlan.amount,
+      currency: 'usd',
+      recurring: { interval: 'month' },
+      product_data: {
+        name: `PagePilot ${selectedPlan.name}`,
+        description: `${plan === 'growth' ? '5' : 'Unlimited'} landing pages per month`
+      },
+    });
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: `PagePilot ${selectedPlan.name}`,
-            description: `Unlimited landing pages for ${plan === 'growth' ? '5' : 'unlimited'} pages`
-          },
-          unit_amount: selectedPlan.amount,
-        },
+        price: stripePrice.id,
         quantity: 1,
       }],
       mode: 'subscription',
       customer_email: email,
-      success_url: `${event.headers.origin || 'https://graceful-caramel-f3216a.netlify.app'}/?success=true`,
+      success_url: `${event.headers.origin || 'https://graceful-caramel-f3216a.netlify.app'}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${event.headers.origin || 'https://graceful-caramel-f3216a.netlify.app'}/?canceled=true`,
     });
 
