@@ -1,14 +1,13 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "nixpacks": {
-      "pkgs": ["nodejs-18_x"]
-    }
+    "builder": "CUSTOM",
+    "buildCommand": "cd client && npm install && npm run build && cd .. && npm install",
+    "startCommand": "node server.js"
   },
   "deploy": {
     "numReplicas": 1,
-    "restartPolicyType": "ON_FAILURE", 
+    "restartPolicyType": "ON_FAILURE",
     "restartPolicyAmount": 5
   }
 }
