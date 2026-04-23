@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PagePilot - AI Landing Pages That Convert</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #fff; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    nav { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: 700; color: #6366f1; }
+    .badge { background: #6366f1; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin-left: 8px; font-weight: 600; }
+    .hero { text-align: center; padding: 100px 0 60px; }
+    .hero h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 20px; color: #94a3b8; max-width: 600px; margin: 0 auto 40px; }
+    .cta-group { display: flex; gap: 16px; justify-content: center; }
+    .btn-primary { background: #6366f1; color: #fff; padding: 16px 32px; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { background: #4f46e5; }
+    .btn-secondary { background: transparent; color: #94a3b8; padding: 16px 32px; border: 1px solid #334155; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-secondary:hover { color: #fff; border-color: #fff; }
+    .features { padding: 80px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .feature { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 32px; }
+    .feature-icon { font-size: 32px; margin-bottom: 16px; }
+    .feature h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .feature p { color: #94a3b8; font-size: 15px; }
+    .pricing { padding: 80px 0; }
+    .section-title { text-align: center; font-size: 40px; font-weight: 800; margin-bottom: 16px; }
+    .section-subtitle { text-align: center; color: #94a3b8; font-size: 18px; margin-bottom: 48px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .plan { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 40px 32px; text-align: center; }
+    .plan.featured { border-color: #6366f1; position: relative; }
+    .plan.featured::before { content: 'POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #6366f1; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 6px; }
+    .plan h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .price { font-size: 48px; font-weight: 800; color: #6366f1; margin-bottom: 24px; }
+    .price span { font-size: 16px; color: #94a3b8; font-weight: 400; }
+    .plan ul { list-style: none; text-align: left; margin-bottom: 32px; }
+    .plan li { padding: 8px 0; color: #94a3b8; font-size: 15px; }
+    .plan li::before { content: '✓ '; color: #6366f1; font-weight: 700; }
+    .plan .btn { width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; border: none; cursor: pointer; display: block; text-align: center; text-decoration: none; }
+    .plan.featured .btn { background: #6366f1; color: #fff; }
+    .plan:not(.featured) .btn { background: #1f2937; color: #fff; }
+    .how { padding: 80px 0; }
+    .steps { display: flex; gap: 32px; margin-top: 48px; }
+    .step { flex: 1; text-align: center; }
+    .step-num { width: 48px; height: 48px; background: #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 16px; }
+    .step h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .step p { color: #94a3b8; font-size: 14px; }
+    footer { border-top: 1px solid #1f2937; padding: 40px 0; text-align: center; color: #64748b; font-size: 14px; }
+    .guarantee { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 32px; text-align: center; margin: 48px auto; max-width: 600px; }
+    .guarantee h3 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .guarantee p { color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">PagePilot<span class="badge">AI</span></div>
+      <a href="#pricing" class="btn-secondary" style="padding: 10px 20px; font-size: 14px;">Get Started</a>
+    </nav>
+    <section class="hero">
+      <h1>AI Landing Pages<br>That Actually Convert</h1>
+      <p>Describe your product. Get a high-converting landing page in minutes. No design skills needed.</p>
+      <div class="cta-group">
+        <a href="#pricing" class="btn-primary">Start Building Free →</a>
+      </div>
+      <div class="guarantee">
+        <h3>🚤 Fast Deploy, Real Results</h3>
+        <p>Most pages published within 1 hour. Or your money back on paid plans.</p>
+      </div>
+    </section>
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Describe your product in 2 sentences. Our AI builds the entire page in under 5 minutes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Conversion Optimized</h3>
+        <p>Every page is built with proven CRO patterns: right headlines, CTAs, social proof, and urgency triggers.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔗</div>
+        <h3>One-Click Deploy</h3>
+        <p>Publish directly to your domain with one click. No coding, no technical setup needed.</p>
+      </div>
+    </section>
+    <section class="how">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Three steps to your new landing page</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Describe Your Product</h4>
+          <p>Tell us what you offer and who it's for</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>AI Builds It</h4>
+          <p>Our AI creates your complete landing page</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Publish & Profit</h4>
+          <p>Deploy and start converting visitors</p>
+        </div>
+      </div>
+    </section>
+    <section class="pricing" id="pricing">
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-subtitle">Start free. Scale when you're ready.</p>
+      <div class="pricing-grid">
+        <div class="plan">
+          <h3>Starter</h3>
+          <div class="price">$0<span>/mo</span></div>
+          <ul>
+            <li>1 landing page</li>
+            <li>Basic templates</li>
+            <li>Subdomain hosting</li>
+            <li>Email support</li>
+          </ul>
+          <a href="#" class="btn">Get Started</a>
+        </div>
+        <div class="plan featured">
+          <h3>Growth</h3>
+          <div class="price">$49<span>/mo</span></div>
+          <ul>
+            <li>5 landing pages</li>
+            <li>All templates + AI redesign</li>
+            <li>Custom domain</li>
+            <li>A/B testing</li>
+            <li>Analytics dashboard</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="#" class="btn">Start Free Trial</a>
+        </div>
+        <div class="plan">
+          <h3>Scale</h3>
+          <div class="price">$149<span>/mo</span></div>
+          <ul>
+            <li>Unlimited pages</li>
+            <li>Advanced AI features</li>
+            <li>Multi-domain</li>
+            <li>API access</li>
+            <li>Dedicated manager</li>
+            <li>SLA guarantee</li>
+          </ul>
+          <a href="#" class="btn">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <p>© 2026 PagePilot AI — Built by machines, for humans.</p>
+    </footer>
+  </div>
+</body>
+</html>
