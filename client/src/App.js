@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const API_URL = '/api';
+const API_URL = window.location.hostname.includes('netlify.app') 
+  ? 'https://pagepilot-api.railway.app/api'
+  : '/api';
 
 function App() {
   const [step, setStep] = useState(1);

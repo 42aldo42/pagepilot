@@ -1,13 +1,17 @@
-functionsDirectory = "/home/ubuntu/pagepilot/netlify/functions"
-functionsDirectoryOrigin = "config-v1"
+redirectsOrigin = "config"
 plugins = []
 headers = []
-redirects = []
+
+[dev]
+targetPort = 3000.0
+
+[functions]
+
+[functions."*"]
 
 [build]
 publish = "/home/ubuntu/pagepilot/client/build"
 publishOrigin = "config"
-functions = "/home/ubuntu/pagepilot/netlify/functions"
 
 [build.environment]
 NODE_VERSION = "18"
@@ -24,6 +28,26 @@ NODE_VERSION = "18"
 
 [build.services]
 
-[functions]
+[[redirects]]
+from = "/api/*"
+to = "https://pagepilot-api.railway.app/api/:splat"
+status = 200.0
+force = true
 
-[functions."*"]
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
