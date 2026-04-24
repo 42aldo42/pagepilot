@@ -1,0 +1,1 @@
+{"functions":[{"bundler":"zisi","buildData":{"runtimeAPIVersion":1},"mainFile":"/home/ubuntu/pagepilot/netlify/functions/create-checkout.js","name":"create-checkout","priority":10,"runtimeVersion":"nodejs22.x","path":"/home/ubuntu/pagepilot/.netlify/functions/create-checkout.zip","runtime":"js"}],"system":{"arch":"x64","platform":"linux"},"timestamp":1776978547697,"version":1}

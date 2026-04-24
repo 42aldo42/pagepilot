@@ -23,25 +23,81 @@ function App() {
     }
   };
 
+  const generatePage = (product, audience, features) => {
+    const productLower = product.toLowerCase();
+    const audienceLower = audience.toLowerCase();
+    const featuresList = features ? features.split(',').map(f => f.trim()).filter(f => f) : [];
+    
+    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    const headlineTemplates = [
+      `${product} — Built for ${audience}`,
+      `The ${product} That ${audience} Actually Love`,
+      `Stop Struggling. Start Using ${product}.`,
+      `${product}: Finally, a Tool Made for ${audience}`,
+      `Launch Your ${product} in Minutes, Not Weeks`
+    ];
+    
+    const subheadlineTemplates = [
+      `Everything ${audience} need to succeed, in one powerful platform.`,
+      `Join thousands of ${audience} who've already made the switch.`,
+      `Simple, fast, and designed specifically for ${audience}.`,
+      `No coding. No designers. Just results.`
+    ];
+    
+    const ctaTemplates = [
+      'Start Free Trial',
+      'Get Started Now',
+      'Try It Free',
+      'Launch Your Page',
+      'Get Early Access'
+    ];
+    
+    const benefitTemplates = [
+      { icon: '⚡', title: 'Lightning Fast', desc: `Get your ${product} up and running in under 5 minutes.` },
+      { icon: '🎯', title: 'Built for You', desc: `Specifically designed for ${audience} like you.` },
+      { icon: '🔒', title: 'Secure & Reliable', desc: 'Enterprise-grade security with 99.9% uptime.' },
+      { icon: '📈', title: 'Scales With You', desc: 'From first customer to enterprise — we grow together.' },
+      { icon: '🎨', title: 'Beautiful Design', desc: 'Professional templates that convert visitors to customers.' },
+      { icon: '🤝', title: '24/7 Support', desc: 'Real humans, real help, whenever you need it.' }
+    ];
+    
+    const headline = headlineTemplates[Math.floor(Math.random() * headlineTemplates.length)];
+    const subheadline = subheadlineTemplates[Math.floor(Math.random() * subheadlineTemplates.length)];
+    const cta = ctaTemplates[Math.floor(Math.random() * ctaTemplates.length)];
+    
+    const customFeatures = featuresList.length > 0 
+      ? featuresList.map((f, i) => ({ 
+          icon: ['✨', '🚀', '💡', '🔧', '⚙️', '📊'][i % 6], 
+          title: f, 
+          desc: `Powerful ${f.toLowerCase()} built right into your workflow.` 
+        }))
+      : [];
+    
+    const allBenefits = [...customFeatures, ...benefitTemplates].slice(0, 6);
+    
+    return {
+      headline,
+      subheadline,
+      cta,
+      color,
+      benefits: allBenefits,
+      product,
+      audience
+    };
+  };
+
   const handleGenerate = async () => {
     setLoading(true);
     setError('');
-    try {
-      const response = await fetch(`${API_URL}/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product, audience, features })
-      });
-      const data = await response.json();
-      if (data.success) {
-        setGeneratedPage(data.page);
-        setStep(3);
-      } else {
-        setError('Failed to generate page. Please try again.');
-      }
-    } catch (err) {
-      setError('Network error. Please check your connection.');
-    }
+    
+    // Simulate API call with realistic delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const page = generatePage(product, audience, features);
+    setGeneratedPage(page);
+    setStep(3);
     setLoading(false);
   };
 
@@ -246,16 +302,27 @@ function App() {
                 LIVE PREVIEW
               </div>
               <div className="preview-content" style={{ background: '#0a0a0f' }}>
-                <h1 style={{ color: '#fff' }}>{generatedPage.headline}</h1>
-                <button style={{ background: generatedPage.color, color: '#fff', padding: '12px 24px', border: 'none', borderRadius: '8px', fontSize: '16px', marginTop: '20px' }}>
+                <h1 style={{ color: '#fff', fontSize: '32px', marginBottom: '12px' }}>{generatedPage.headline}</h1>
+                <p style={{ color: '#94a3b8', fontSize: '16px', marginBottom: '24px' }}>{generatedPage.subheadline}</p>
+                <button style={{ background: generatedPage.color, color: '#fff', padding: '14px 32px', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: '600', cursor: 'pointer' }}>
                   {generatedPage.cta}
                 </button>
+                
+                <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', textAlign: 'left' }}>
+                  {generatedPage.benefits.map((b, i) => (
+                    <div key={i} style={{ padding: '16px' }}>
+                      <span style={{ fontSize: '24px', display: 'block', marginBottom: '8px' }}>{b.icon}</span>
+                      <h4 style={{ color: '#fff', fontSize: '14px', marginBottom: '4px' }}>{b.title}</h4>
+                      <p style={{ color: '#94a3b8', fontSize: '12px' }}>{b.desc}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
             <div className="action-buttons">
               <button className="btn-primary">Publish Now →</button>
-              <button className="btn-secondary">Edit Design</button>
+              <button className="btn-secondary" onClick={() => setStep(1)}>Edit Inputs</button>
               <button className="btn-secondary">A/B Test</button>
             </div>
 

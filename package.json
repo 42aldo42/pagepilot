@@ -11,12 +11,25 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "keywords": ["saas", "landing-page", "ai"],
+  "keywords": [
+    "saas",
+    "landing-page",
+    "ai"
+  ],
   "author": "Zarathustra",
   "license": "MIT",
   "dependencies": {
     "express": "^5.2.1",
+    "playwright": "^1.59.1",
     "stripe": "^22.0.2",
     "uuid": "^14.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/42aldo42/pagepilot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/42aldo42/pagepilot/issues"
+  },
+  "homepage": "https://github.com/42aldo42/pagepilot#readme"
 }

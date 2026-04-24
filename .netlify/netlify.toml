@@ -1,16 +1,13 @@
+functionsDirectory = "/home/ubuntu/pagepilot/netlify/functions"
+functionsDirectoryOrigin = "config-v1"
 plugins = []
 headers = []
 redirects = []
 
-[functions]
-
-[functions."*"]
-
 [build]
 publish = "/home/ubuntu/pagepilot/client/build"
 publishOrigin = "config"
-commandOrigin = "config"
-command = "cd client && npm install && npm run build"
+functions = "/home/ubuntu/pagepilot/netlify/functions"
 
 [build.environment]
 NODE_VERSION = "18"
@@ -26,3 +23,7 @@ NODE_VERSION = "18"
 [build.processing.js]
 
 [build.services]
+
+[functions]
+
+[functions."*"]
