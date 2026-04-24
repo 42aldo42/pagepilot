@@ -92,12 +92,27 @@ function App() {
     setLoading(true);
     setError('');
     
-    // Simulate API call with realistic delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const page = generatePage(product, audience, features);
-    setGeneratedPage(page);
-    setStep(3);
+    try {
+      const response = await fetch(`${API_URL}/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product, audience, features })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to generate page');
+      }
+      
+      const page = await response.json();
+      setGeneratedPage(page);
+      setStep(3);
+    } catch (err) {
+      console.error('Generation error:', err);
+      // Fallback to client-side generation
+      const page = generatePage(product, audience, features);
+      setGeneratedPage(page);
+      setStep(3);
+    }
     setLoading(false);
   };
 
@@ -141,6 +156,11 @@ function App() {
             <section className="hero-section">
               <h1>Describe Your Product.<br />Get a Landing Page in Minutes.</h1>
               <p className="subtitle">AI-powered landing page builder. No design skills needed.</p>
+              <div className="hero-badges">
+                <span className="hero-badge">⚡ AI Generated</span>
+                <span className="hero-badge">🎨 Unique Design</span>
+                <span className="hero-badge">💳 Stripe Ready</span>
+              </div>
               
               <div className="onboarding-card">
                 <h2>What are you building?</h2>
@@ -228,7 +248,7 @@ function App() {
                     <li>Subdomain hosting</li>
                     <li>Email support</li>
                   </ul>
-                  <button className="btn-plan" onClick={() => alert('Sign up for free to get started!')}>Get Started</button>
+                  <button className="btn-plan" onClick={() => { setStep(1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Get Started</button>
                 </div>
                 <div className="plan featured">
                   <h3>Growth</h3>
@@ -254,7 +274,7 @@ function App() {
                     <li>Dedicated manager</li>
                     <li>SLA guarantee</li>
                   </ul>
-                  <button className="btn-plan">Contact Sales</button>
+                  <button className="btn-plan" onClick={() => document.getElementById('email-section')?.scrollIntoView({ behavior: 'smooth' })}>Contact Sales</button>
                 </div>
               </div>
             </section>
@@ -302,6 +322,13 @@ function App() {
                 LIVE PREVIEW
               </div>
               <div className="preview-content" style={{ background: '#0a0a0f' }}>
+                {generatedPage.heroImage && (
+                  <img 
+                    src={generatedPage.heroImage} 
+                    alt="Hero" 
+                    style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '24px' }}
+                  />
+                )}
                 <h1 style={{ color: '#fff', fontSize: '32px', marginBottom: '12px' }}>{generatedPage.headline}</h1>
                 <p style={{ color: '#94a3b8', fontSize: '16px', marginBottom: '24px' }}>{generatedPage.subheadline}</p>
                 <button style={{ background: generatedPage.color, color: '#fff', padding: '14px 32px', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: '600', cursor: 'pointer' }}>
@@ -351,7 +378,18 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 PagePilot AI — Built by machines, for humans.</p>
+        <div className="footer-content">
+          <div className="footer-brand">
+            <div className="logo">PagePilot<span className="badge">AI</span></div>
+            <p>AI-powered landing pages for founders who ship fast.</p>
+          </div>
+          <div className="footer-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="mailto:hello@pagepilot.ai">Contact</a>
+          </div>
+        </div>
+        <p className="footer-copy">© 2026 PagePilot AI — Built by machines, for humans.</p>
       </footer>
     </div>
   );
